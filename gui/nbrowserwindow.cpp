@@ -298,6 +298,7 @@ void NBrowserWindow::browserThreadStarted() {
 // Setup the toolbar window of the editor
 void NBrowserWindow::setupToolBar() {
     buttonBar = new EditorButtonBar();
+    buttonBar->setFixedHeight(30);
 
     // Toolbar action
     connect(buttonBar->undoButtonAction, SIGNAL(triggered()), this, SLOT(undoButtonPressed()));
@@ -3679,7 +3680,7 @@ void NBrowserWindow::focusCheck() {
 
     if (!editor->page()->isContentEditable())
         buttonBarVisible = false;
-    buttonBar->setVisible(buttonBarVisible);
+    buttonBar->setVisible(true);
 }
 
 

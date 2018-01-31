@@ -153,6 +153,31 @@ EditorButtonBar::EditorButtonBar(QWidget *parent) :
   pasteButtonAction = this->addAction(global.getIconResource(":pasteIcon"), tr("Paste"));
   //this->setupShortcut(pasteButtonAction, "Edit_Paste");  // This is captured in NWebView via a keyevent statement
 
+  fontNames = new FontNameComboBox(this);
+  fontSizes = new FontSizeComboBox(this);
+
+  loadFontNames();
+  fontButtonAction = addWidget(fontNames);
+  fontSizeButtonAction = addWidget(fontSizes);
+
+  fontColorMenuWidget = new ColorMenu();
+  fontColorButtonWidget = new QToolButton(this);
+  fontColorButtonWidget->setAutoRaise(false);
+  fontColorButtonWidget->setMenu(fontColorMenuWidget->getMenu());
+  fontColorButtonWidget->setIcon(global.getIconResource(":fontColorIcon"));
+  fontColorButtonWidget->setToolTip(tr("Font Color"));
+  fontColorAction = this->addWidget(fontColorButtonWidget);
+
+  highlightColorMenuWidget = new ColorMenu();
+  highlightColorMenuWidget->setDefault(Qt::yellow);
+  highlightColorButtonWidget = new QToolButton(this);
+  highlightColorButtonWidget->setAutoRaise(false);
+  highlightColorButtonWidget->setMenu(highlightColorMenuWidget->getMenu());
+  highlightColorButtonWidget->setIcon(global.getIconResource(":fontHighlightIcon"));
+  highlightColorButtonWidget->setToolTip(tr("Highlight"));
+  highlightColorAction = this->addWidget(highlightColorButtonWidget);
+  highlightColorShortcut = new QShortcut(this);
+
   removeFormatButtonAction = this->addAction(global.getIconResource(":eraserIcon"), tr("Remove Formatting"));
   removeFormatButtonShortcut = new QShortcut(this);
   this->setupShortcut(removeFormatButtonShortcut, "Edit_Remove_Formatting");
@@ -236,30 +261,6 @@ EditorButtonBar::EditorButtonBar(QWidget *parent) :
   numberListButtonShortcut = new QShortcut(this);
   this->setupShortcut(numberListButtonShortcut, "Format_List_Numbered");
 
-  fontNames = new FontNameComboBox(this);
-  fontSizes = new FontSizeComboBox(this);
-
-  loadFontNames();
-  fontButtonAction = addWidget(fontNames);
-  fontSizeButtonAction = addWidget(fontSizes);
-
-  fontColorMenuWidget = new ColorMenu();
-  fontColorButtonWidget = new QToolButton(this);
-  fontColorButtonWidget->setAutoRaise(false);
-  fontColorButtonWidget->setMenu(fontColorMenuWidget->getMenu());
-  fontColorButtonWidget->setIcon(global.getIconResource(":fontColorIcon"));
-  fontColorButtonWidget->setToolTip(tr("Font Color"));
-  fontColorAction = this->addWidget(fontColorButtonWidget);
-
-  highlightColorMenuWidget = new ColorMenu();
-  highlightColorMenuWidget->setDefault(Qt::yellow);
-  highlightColorButtonWidget = new QToolButton(this);
-  highlightColorButtonWidget->setAutoRaise(false);
-  highlightColorButtonWidget->setMenu(highlightColorMenuWidget->getMenu());
-  highlightColorButtonWidget->setIcon(global.getIconResource(":fontHighlightIcon"));
-  highlightColorButtonWidget->setToolTip(tr("Highlight"));
-  highlightColorAction = this->addWidget(highlightColorButtonWidget);
-  highlightColorShortcut = new QShortcut(this);
   this->setupShortcut(highlightColorShortcut, "Format_Highlight");
 
   todoButtonAction = this->addAction(global.getIconResource(":todoIcon"), tr("Todo"));

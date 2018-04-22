@@ -233,10 +233,23 @@ void NTabWidget::openNote(qint32 lid, OpenNoteMode mode) {
             return;
         }
     }
+
+    bool haveSavedSize = false;
+    QSize savedSize;
+    global.settings->beginGroup("Appearance");
+    if(global.settings->contains("externalBrowseSize")) {
+        haveSavedSize = true;
+        savedSize = global.settings->value("externalBrowseSize").toSize();
+    }
+    global.settings->endGroup();
+
     for (int i=0;i<externalList->size() && !found &&
          mode == ExternalWindow; i++) {
         if (externalList->at(i)->browser->lid == lid) {
             ExternalBrowse *external = externalList->at(i);
+            if(haveSavedSize) {
+                external->resize(savedSize);
+            }
             external->setVisible(true);
             external->raise();
             external->setFocus();
@@ -264,6 +277,9 @@ void NTabWidget::openNote(qint32 lid, OpenNoteMode mode) {
             ExternalBrowse *external = new ExternalBrowse(lid);
             externalList->append(external);
             setupExternalBrowserConnections(external->browser);
+            if(haveSavedSize) {
+                external->resize(savedSize);
+            }
             external->setWindowTitle(tr("NixNote - ") +external->browser->noteTitle.text());
             external->show();
             connect(external->browser->editor->titleEditor, SIGNAL(titleUpdated(QString)), external, SLOT(setTitle(QString)));

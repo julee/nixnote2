@@ -115,6 +115,9 @@ void ExternalBrowse::closeEvent(QCloseEvent *closeEvent) {
     if (this->browser->editor->isDirty)
         this->browser->saveNoteContent();
     this->setVisible(false);
+    global.settings->beginGroup("Appearance");
+    global.settings->setValue("externalBrowseSize", this->size());
+    global.settings->endGroup();
     closeEvent->ignore();
 }
 
